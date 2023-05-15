@@ -13,11 +13,13 @@ public class EnemyAII : MonoBehaviour
     [SerializeField] private float _stopTargetFollowingRange;
     [SerializeField] private AIDestinationSetter _aiDestinationSetter;
     private Player _player;
+    private Tower _tower;
     private EnemyStates _currentState;
     private Vector3 _roamPosition;
     private void Start()
     {
         _player = FindObjectOfType<Player>();
+        _tower = FindObjectOfType<Tower>();
         _currentState = EnemyStates.Roaming;
         _roamPosition = GenerateRoamPosition();
     }
@@ -53,7 +55,16 @@ public class EnemyAII : MonoBehaviour
         {
             _currentState = EnemyStates.Following;
         }
+    } 
+    private void TryFindTower()
+    {/*
+        if (Vector3.Distance(gameObject.transform.position, _player.transform.position) <= _targetFollowRange)
+        {
+            _currentState = EnemyStates.Following;
+        }*/
     }
+
+
     private Vector3 GenerateRoamPosition()
     {
         var roamPosition = gameObject.transform.position + GenerateRandomDirection() * GenerateRandomWalkableDistance();

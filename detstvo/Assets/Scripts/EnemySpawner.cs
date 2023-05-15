@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int _maxY;
     [SerializeField] private float _height;
     private float _currentSpawnTimer;
+    private float _currentSpawnNumber;
     private void Update()
     {
         _currentSpawnTimer += Time.deltaTime;
@@ -19,6 +20,11 @@ public class EnemySpawner : MonoBehaviour
             var newPosition = GenerateStartPosition();
             enemyInstance.transform.position = newPosition;
             _currentSpawnTimer = 0;
+            _currentSpawnNumber += 1;
+            if (_currentSpawnNumber == 10)
+            {
+                _spawnInterval = 1000;
+            }
         }
     }
     private Vector3 GenerateStartPosition()
