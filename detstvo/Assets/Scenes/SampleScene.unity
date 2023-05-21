@@ -2706,7 +2706,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -4.419, y: -131.107, z: 1.401}
 --- !u!64 &524182786
 MeshCollider:
@@ -6161,7 +6161,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 54f6b317edacc304cb0dc01e985c3395, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 54f6b317edacc304cb0dc01e985c3395, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7923,6 +7923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ebbe11d868c924497ba939c94710b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health: 100
 --- !u!1 &1735457684
 GameObject:
   m_ObjectHideFlags: 0
@@ -8986,7 +8987,7 @@ GameObject:
   - component: {fileID: 2062330004}
   - component: {fileID: 2062330007}
   - component: {fileID: 2062330003}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9084,3 +9085,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eaaaa43e73986f42b56d366db129df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthT: 0

@@ -8,11 +8,14 @@ public class EnemyAII : MonoBehaviour
     [SerializeField] private float _maxWalkableDistance;
     [SerializeField] private float _reachedPointDistance;
     [SerializeField] private GameObject _roamTarget;
-    [SerializeField] private float _targetFollowRange;
     
+    [SerializeField] private float _targetFollowRange; 
     [SerializeField] private EnemyAttack _enemyAttack;
     [SerializeField] private float _stopTargetFollowingRange;
     [SerializeField] private AIDestinationSetter _aiDestinationSetter;
+    [SerializeField] private EnemyAnimator _enemyAnimator;
+    [SerializeField] private AIPath aiPath;
+
     private Player _player;
     private Tower _tower;
     private EnemyStates _currentState;
@@ -36,19 +39,79 @@ public class EnemyAII : MonoBehaviour
                 }
                 _aiDestinationSetter.target = _roamTarget.transform;
                 TryFindPlayer();
-                TryFindTower();
+                _enemyAnimator.IsWalking(true);
+                _enemyAnimator.IsRunning(false);
+
+                aiPath.maxSpeed = 2;
+
                 break;
+
+            case EnemyStates.RoamingTow:
+                _roamTarget.transform.position = _roamPosition;
+                if (Vector3.Distance(gameObject.transform.position, _roamPosition) <= _reachedPointDistance)
+                {
+                    _roamPosition = GenerateRoamPosition();
+                }
+                _aiDestinationSetter.target = _roamTarget.transform;
+                TryFindTower();
+                _enemyAnimator.IsWalking(true);
+                _enemyAnimator.IsRunning(false);
+
+                aiPath.maxSpeed = 2;
+
+                break;
+
             case EnemyStates.Following:
                 _aiDestinationSetter.target = _player.transform;
+
+                _enemyAnimator.IsWalking(false);
+                _enemyAnimator.IsRunning(true);
+
+                aiPath.maxSpeed = 4;
+
                 if (Vector3.Distance(gameObject.transform.position, _player.transform.position) < _enemyAttack.AttackRange)
                 {
-                    _enemyAttack.TryAttackPlayer();
-                }
-                if (Vector3.Distance(gameObject.transform.position, _tower.transform.position) < _enemyAttack.AttackRange)
-                {
-                    _enemyAttack.TryAttackTower();
+
+                    _enemyAnimator.IsWalking(false);
+                    _enemyAnimator.IsRunning(false);
+
+                    if (_enemyAttack.CanAttack)
+                    {
+                        _enemyAttack.TryAttackPlayer();
+
+                        _enemyAnimator.PlayAttack();
+                    }
+                    
                 }
                 if (Vector3.Distance(gameObject.transform.position, _player.transform.position) >= _stopTargetFollowingRange)
+                {
+                    _currentState = EnemyStates.Roaming;
+                }
+                break;
+
+            case EnemyStates.FollowingTow:
+                _aiDestinationSetter.target = _tower.transform;
+
+                _enemyAnimator.IsWalking(false);
+                _enemyAnimator.IsRunning(true);
+
+                aiPath.maxSpeed = 5;
+
+                if (Vector3.Distance(gameObject.transform.position, _tower.transform.position) < _enemyAttack.AttackRange)
+                {
+
+                    _enemyAnimator.IsWalking(false);
+                    _enemyAnimator.IsRunning(false);
+
+                    if (_enemyAttack.CanAttack)
+                    {
+                        _enemyAttack.TryAttackTower();
+
+                        _enemyAnimator.PlayAttack();
+                    }
+                    
+                }
+                if (Vector3.Distance(gameObject.transform.position, _tower.transform.position) >= _stopTargetFollowingRange)
                 {
                     _currentState = EnemyStates.Roaming;
                 }
@@ -90,5 +153,7 @@ public class EnemyAII : MonoBehaviour
 public enum EnemyStates
 {
     Roaming,
-    Following
+    RoamingTow,
+    Following,
+    FollowingTow
 }
