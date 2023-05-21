@@ -9,6 +9,7 @@ public class EnemyAII : MonoBehaviour
     [SerializeField] private float _reachedPointDistance;
     [SerializeField] private GameObject _roamTarget;
     [SerializeField] private float _targetFollowRange;
+    
     [SerializeField] private EnemyAttack _enemyAttack;
     [SerializeField] private float _stopTargetFollowingRange;
     [SerializeField] private AIDestinationSetter _aiDestinationSetter;
@@ -35,12 +36,17 @@ public class EnemyAII : MonoBehaviour
                 }
                 _aiDestinationSetter.target = _roamTarget.transform;
                 TryFindPlayer();
+                TryFindTower();
                 break;
             case EnemyStates.Following:
                 _aiDestinationSetter.target = _player.transform;
                 if (Vector3.Distance(gameObject.transform.position, _player.transform.position) < _enemyAttack.AttackRange)
                 {
                     _enemyAttack.TryAttackPlayer();
+                }
+                if (Vector3.Distance(gameObject.transform.position, _tower.transform.position) < _enemyAttack.AttackRange)
+                {
+                    _enemyAttack.TryAttackTower();
                 }
                 if (Vector3.Distance(gameObject.transform.position, _player.transform.position) >= _stopTargetFollowingRange)
                 {
@@ -57,11 +63,11 @@ public class EnemyAII : MonoBehaviour
         }
     } 
     private void TryFindTower()
-    {/*
-        if (Vector3.Distance(gameObject.transform.position, _player.transform.position) <= _targetFollowRange)
+    {
+        if (Vector3.Distance(gameObject.transform.position, _tower.transform.position) <= _targetFollowRange)
         {
             _currentState = EnemyStates.Following;
-        }*/
+        }
     }
 
 

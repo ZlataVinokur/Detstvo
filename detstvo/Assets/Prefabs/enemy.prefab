@@ -171,9 +171,9 @@ MonoBehaviour:
   _maxWalkableDistance: 10
   _reachedPointDistance: 3
   _roamTarget: {fileID: 180410426703582813}
-  _targetFollowRange: 3
+  _targetFollowRange: 5
   _enemyAttack: {fileID: -5910444972862870920}
-  _stopTargetFollowingRange: 6
+  _stopTargetFollowingRange: 11
   _aiDestinationSetter: {fileID: 1731187647015403384}
 --- !u!114 &-5910444972862870920
 MonoBehaviour:

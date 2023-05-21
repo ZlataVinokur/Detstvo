@@ -6,6 +6,8 @@ public class EnemyAttack : MonoBehaviour
     public float AttackRange => _attackRange;
     public void TryAttackPlayer()
     { }
+    public void TryAttackTower()
+    { }
 }
 
 
